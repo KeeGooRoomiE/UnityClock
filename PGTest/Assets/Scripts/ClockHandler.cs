@@ -115,4 +115,48 @@ public class ClockHandler : MonoBehaviour
         minute = currentTime.Minute;
         second = currentTime.Second;
         
-        var ho
+        var hourAngle = 360f / 24f * hour;
+        var minuteAngle = 360f / 60f * minute;
+        var secondAngle = 360f / 60f * second;
+
+        AnimateHand(hourHand.transform, hourAngle);
+        AnimateHand(minuteHand.transform, minuteAngle);
+        AnimateHand(secondHand.transform, secondAngle);
+    }
+
+    void AnimateHand(Transform hand, float angle)
+    {
+        float targetZRotation = -angle;
+        float duration = 0.5f * Mathf.Abs(hand.localEulerAngles.z - targetZRotation) / 360f;
+
+        hand.DORotate(new Vector3(0, 0, targetZRotation), duration).SetEase(Ease.OutCirc);
+    }
+
+    private IEnumerator CountTime()
+    {
+        yield return new WaitForSeconds(1f);
+        if (isCountingTime)
+        {
+            currentTime = currentTime.AddSeconds(1);
+            SyncTime();
+        }
+        
+        StartCoroutine(CountTime());
+    }
+
+    public void UpdateInput()
+    {
+        string input = textString.text;
+
+        if (DateTime.TryParse(input, out DateTime newDateTime))
+        {
+            currentTime = newDateTime;
+            Debug.Log("New time: " + currentTime);
+        }
+        else
+        {
+            Debug.LogError("Invalid DateTime format");
+        }
+    }
+
+}
