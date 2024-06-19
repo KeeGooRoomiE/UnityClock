@@ -116,9 +116,9 @@ public class ClockHandler : MonoBehaviour
         minute = currentTime.Minute;
         second = currentTime.Second;
         
-        var hourAngle = 360f / 24f * hour;
-        var minuteAngle = 360f / 60f * minute;
-        var secondAngle = 360f / 60f * second;
+        var hourAngle = 360f / 24f * hour-1;
+        var minuteAngle = 360f / 60f * minute-1;
+        var secondAngle = 360f / 60f * second-1;
 
         AnimateHand(hourHand.transform, hourAngle);
         AnimateHand(minuteHand.transform, minuteAngle);
