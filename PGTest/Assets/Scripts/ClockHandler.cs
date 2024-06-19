@@ -87,6 +87,7 @@ public class ClockHandler : MonoBehaviour
     public void UpdateServerTime()
     {
         StartCoroutine(GetServerTime());
+        SyncTime();
     }
 
     private void GetLocalTime()
